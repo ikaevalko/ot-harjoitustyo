@@ -6,6 +6,10 @@ Sovellus on avaruuslentelypeli, jossa tarkoituksena on selvitä mahdollisimman m
 
 #### Suunnitellut toiminnallisuudet
 
+- Ohjelman käynnistyttyä näytetään päävalikko, jossa voi:
+	* aloittaa uuden pelin
+	* siirtyä tarkastelemaan pistetaulukkoa
+	* sulkea pelin
 - Pelaaja voi ohjata avaruusalustaan pelialueen sisällä ja ampua erilaisia panoksia
 - Pelaaja voi edetä pelissä tuhoamalla pelialueelle ilmestyviä vihollisaluksia
 - Tuhotuista vihollisaluksista putoaa satunnaisesti tehosteita, joita pelaaja voi kerätä
