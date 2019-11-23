@@ -3,8 +3,8 @@
 Harjoitustyön aiheena on avaruuslentelypeli, jossa tarkoituksena on selvitä mahdollisimman monesta vihollisaallosta.
 
 Valittavissa on kaksi tapaa ohjata avaruusalusta:
-	* WASD + Hiiri
-	* WASD + JKL
+	- WASD + Hiiri
+	- WASD + JKL
 
 ### Dokumentaatio
 
