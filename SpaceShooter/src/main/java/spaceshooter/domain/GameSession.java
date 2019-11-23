@@ -9,6 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import spaceshooter.input.ControlScheme;
 import spaceshooter.input.KeyboardOnlyControl;
+import spaceshooter.input.MouseKeyboardControl;
 
 public class GameSession {
     
@@ -17,7 +18,7 @@ public class GameSession {
     private Player player;
     private ControlScheme controls;
     
-    public GameSession(Pane base, Scene scene) {
+    public GameSession(Pane base, Scene scene, int controlScheme) {
         
         this.base = base;
         this.base.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -25,12 +26,24 @@ public class GameSession {
         this.player = new Player();
         this.base.getChildren().add(player.getGraphics());
         this.player.setPosition(this.scene.getWidth() * 0.5, this.scene.getHeight() * 0.5);
-        this.controls = new KeyboardOnlyControl(player, scene);
+        setControlScheme(controlScheme);
     }
     
     public void update() {
         
         controls.update();
         player.keepInsideBounds(scene.getWidth(), scene.getHeight());
+    }
+    
+    private void setControlScheme(int controlScheme) {
+        
+        if (controlScheme == 0) {
+            
+            this.controls = new MouseKeyboardControl(player, scene);
+            
+        } else if (controlScheme == 1) {
+            
+            this.controls = new KeyboardOnlyControl(player, scene);
+        }
     }
 }

@@ -31,6 +31,11 @@ public class Player extends GameObject {
         graphics.setTranslateY(graphics.getTranslateY() + accelerationY);
     }
     
+    public double getSpeed() {
+        
+        return this.speed;
+    }
+    
     public int getCondition() {
         
         return this.condition;

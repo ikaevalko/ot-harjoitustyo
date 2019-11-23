@@ -12,7 +12,7 @@ public abstract class ControlScheme {
     protected HashMap<KeyCode, Boolean> keyInputs;
     protected double movementInputX;
     protected double movementInputY;
-    protected double rotationInput;
+    protected double currentRotation;
     
     public ControlScheme(Player player, Scene scene) {
         
@@ -50,7 +50,7 @@ public abstract class ControlScheme {
         
         double length = Math.sqrt(movementInputX * movementInputX + movementInputY * movementInputY);
         
-        if(length > 0) {
+        if (length > 0) {
             movementInputX /= length;
             movementInputY /= length;
         }

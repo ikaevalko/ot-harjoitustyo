@@ -1,14 +1,19 @@
 package spaceshooter.input;
 
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import spaceshooter.domain.Player;
 
-public class KeyboardOnlyControl extends ControlScheme {
+public class MouseKeyboardControl extends ControlScheme {
     
-    public KeyboardOnlyControl(Player player, Scene scene) {
+    private double mouseX;
+    private double mouseY;
+    
+    public MouseKeyboardControl(Player player, Scene scene) {
         
         super(player, scene);
+        scene.getRoot().setCursor(Cursor.CROSSHAIR);
     }
     
     @Override
@@ -47,16 +52,17 @@ public class KeyboardOnlyControl extends ControlScheme {
     @Override
     public void updateRotationInput() {
         
-        if (keyInputs.getOrDefault(KeyCode.J, false)) {
+        scene.setOnMouseMoved(e -> {
             
-            currentRotation -= 5;
-            
-        } else if (keyInputs.getOrDefault(KeyCode.L, false)) {
-            
-            currentRotation += 5;
-        }
+            mouseX = e.getSceneX();
+            mouseY = e.getSceneY();
+        });
         
-        player.setRotation(currentRotation);
+        double dirX = mouseX - player.getPositionX();
+        double dirY = mouseY - player.getPositionY();
+        
+        currentRotation = Math.atan2(dirX, dirY) * -180 / Math.PI;
+        player.setRotation(currentRotation + 180);
     }
     
     @Override

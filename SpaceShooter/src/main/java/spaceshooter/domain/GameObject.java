@@ -10,11 +10,10 @@ import javafx.scene.shape.Rectangle;
 public class GameObject {
     
     protected Node graphics;
-    protected Point2D position;
     
     public GameObject(Point2D[] lines, Color color) {
         
-        if(lines.length <= 0 || lines.length % 2 != 0) {
+        if (lines.length <= 0 || lines.length % 2 != 0) {
             this.graphics = new Rectangle(10, 10);
         }
         
@@ -30,9 +29,9 @@ public class GameObject {
         
         Group group = new Group();
         
-        for(int i = 0; i < lines.length - 1; i++) {
+        for (int i = 0; i < lines.length - 1; i++) {
             
-            Line l = new Line(lines[i].getX(), lines[i].getY(), lines[i+1].getX(), lines[i+1].getY());
+            Line l = new Line(lines[i].getX(), lines[i].getY(), lines[i + 1].getX(), lines[i + 1].getY());
             l.setStroke(color);
             group.getChildren().add(l);
         }
@@ -46,6 +45,11 @@ public class GameObject {
         graphics.setTranslateY(y);
     }
     
+    public void setRotation(double rotation) {
+        
+        graphics.setRotate(rotation);
+    }
+    
     public double getPositionX() {
         
         return this.graphics.getTranslateX();
@@ -56,22 +60,27 @@ public class GameObject {
         return this.graphics.getTranslateY();
     }
     
+    public double getRotation() {
+        
+        return this.graphics.getRotate();
+    }
+    
     public void keepInsideBounds(double sizeX, double sizeY) {
         
         double posX = graphics.getTranslateX();
         double posY = graphics.getTranslateY();
         
-        if(posX < 0) {
+        if (posX < 0) {
             graphics.setTranslateX(0);
             
-        } else if(posX > sizeX) {
+        } else if (posX > sizeX) {
             graphics.setTranslateX(sizeX);
         }
         
-        if(posY < 0) {
+        if (posY < 0) {
             graphics.setTranslateY(0);
             
-        } else if(posY > sizeY) {
+        } else if (posY > sizeY) {
             graphics.setTranslateY(sizeY);
         }
     }

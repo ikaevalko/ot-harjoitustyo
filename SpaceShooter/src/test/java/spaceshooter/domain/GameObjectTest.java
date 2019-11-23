@@ -26,6 +26,15 @@ public class GameObjectTest {
     }
     
     @Test
+    public void setRotationWorksCorrectly() {
+        
+        gameObject.setRotation(20);
+        assertEquals(20, gameObject.getRotation(), 0.1);
+        gameObject.setRotation(-20);
+        assertEquals(-20, gameObject.getRotation(), 0.1);
+    }
+    
+    @Test
     public void keepInsideBoundsClampsMinimumPosition() {
         
         gameObject.setPosition(-10, -10);
