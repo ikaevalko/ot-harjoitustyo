@@ -2,6 +2,10 @@
 
 Harjoitustyön aiheena on avaruuslentelypeli, jossa tarkoituksena on selvitä mahdollisimman monesta vihollisaallosta.
 
+Valittavissa on kaksi tapaa ohjata avaruusalusta:
+	* WASD + Hiiri
+	* WASD + JKL
+
 ### Dokumentaatio
 
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
