@@ -1,4 +1,4 @@
-## Ohjelmistotekniikka-kurssin harjoitustyö
+# Ohjelmistotekniikka-kurssin harjoitustyö
 
 Harjoitustyön aiheena on avaruuslentelypeli, jossa tarkoituksena on selvitä mahdollisimman monesta vihollisaallosta.
 
@@ -6,7 +6,7 @@ Valittavissa on kaksi tapaa ohjata avaruusalusta:
 - WASD + Hiiri
 - WASD + JKL
 
-### Dokumentaatio
+## Dokumentaatio
 
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
 
@@ -14,7 +14,7 @@ Valittavissa on kaksi tapaa ohjata avaruusalusta:
 
 [Työaikakirjanpito](dokumentaatio/tyoaikakirjanpito.md)
 
-### Komennot
+## Komennot
 
 Ohjelman koodi voidaan suorittaa IDE:n avulla, tai navigoimalla kansioon "SpaceShooter" ja ajamalla komento
 
@@ -33,3 +33,11 @@ Testikattavuusraportti luodaan tiedostoon _target/site/jacoco/index.html_ komenn
 ```
 mvn test jacoco:report
 ```
+
+Tiedostossa [checkstyle.xml](SpaceShooter/checkstyle.xml) määritellyt tarkistukset suoritetaan komennolla
+
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+
+Checkstyle-tarkistuksen tulokset löytyvät tiedostosta _target/site/checkstyle.html_
