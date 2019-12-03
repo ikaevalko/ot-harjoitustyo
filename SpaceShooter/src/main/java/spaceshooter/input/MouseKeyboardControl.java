@@ -1,19 +1,38 @@
 package spaceshooter.input;
 
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import spaceshooter.domain.Player;
 
 public class MouseKeyboardControl extends ControlScheme {
     
     private double mouseX;
     private double mouseY;
     
-    public MouseKeyboardControl(Player player, Scene scene) {
+    public MouseKeyboardControl() {
         
-        super(player, scene);
         scene.getRoot().setCursor(Cursor.CROSSHAIR);
+        
+        scene.setOnMouseMoved(e -> {
+            
+            mouseX = e.getSceneX();
+            mouseY = e.getSceneY();
+        });
+        
+        scene.setOnMouseDragged(e -> {
+            
+            mouseX = e.getSceneX();
+            mouseY = e.getSceneY();
+        });
+        
+        scene.setOnMousePressed(e -> {
+            
+            shooting = true;
+        });
+        
+        scene.setOnMouseReleased(e -> {
+            
+            shooting = false;
+        });
     }
     
     @Override
@@ -52,12 +71,6 @@ public class MouseKeyboardControl extends ControlScheme {
     @Override
     public void updateRotationInput() {
         
-        scene.setOnMouseMoved(e -> {
-            
-            mouseX = e.getSceneX();
-            mouseY = e.getSceneY();
-        });
-        
         double dirX = mouseX - player.getPositionX();
         double dirY = mouseY - player.getPositionY();
         
@@ -68,5 +81,9 @@ public class MouseKeyboardControl extends ControlScheme {
     @Override
     public void updateShootingInput() {
         
+        if (shooting) {
+            
+            player.shoot();
+        }
     }
 }

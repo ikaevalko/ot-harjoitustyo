@@ -85,7 +85,7 @@ public class SpaceShooterUi extends Application {
         
         Label text = new Label("Choose control scheme");
         text.setStyle("-fx-font-size: 16");
-        RadioButton mouseKeyboardControl = new RadioButton("Mouse + Keyboard control");
+        RadioButton mouseKeyboardControl = new RadioButton("Mouse + Keyboard");
         RadioButton keyboardOnlyControl = new RadioButton("Keyboard only");
         ToggleGroup group = new ToggleGroup();
         

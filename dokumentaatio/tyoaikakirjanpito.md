@@ -10,4 +10,7 @@
 | 17.11.| 3      | GameObject-luokan parantelua, ensimmäiset testit |
 | 20.11.| 4      | pelaajan kääntäminen, vaihtoehtoiset kontrollit |
 | 23.11.| 4      | checkstylen käyttöönotto, ohjelman alustava rakenne luokkakaaviona, lisää testejä |
-| yht   | 25     | |
+| 27.11.| 5      | ensimmäinen vihollinen, alustava spawner-looppi |
+| 28.11.| 6      | ampumistoiminnallisuus, refaktorointi, luokkakaavion päivitys |
+| 1.12. | 6      | projektin valmistelua ensimmäiseen releaseen, sekvenssikaavio pelaajan liikuttamisesta, lisää testejä |
+| yht   | 46     | |

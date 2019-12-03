@@ -3,6 +3,7 @@ package spaceshooter.input;
 import java.util.HashMap;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import spaceshooter.domain.GameSession;
 import spaceshooter.domain.Player;
 
 public abstract class ControlScheme {
@@ -13,11 +14,19 @@ public abstract class ControlScheme {
     protected double movementInputX;
     protected double movementInputY;
     protected double currentRotation;
+    protected boolean shooting;
     
-    public ControlScheme(Player player, Scene scene) {
+    public ControlScheme() {
         
-        this.player = player;
-        this.scene = scene;
+        try {
+            this.player = GameSession.getInstance().getPlayer();
+            this.scene = GameSession.getInstance().getScene();
+            
+        } catch (Exception e) {
+            
+            System.out.println("ControlScheme: Could not find GameSession");
+        }
+        
         this.keyInputs = new HashMap<>();
         setInputActions();
     }

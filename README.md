@@ -16,11 +16,25 @@ Valittavissa on kaksi tapaa ohjata avaruusalusta:
 
 ## Komennot
 
-Ohjelman koodi voidaan suorittaa IDE:n avulla, tai navigoimalla kansioon "SpaceShooter" ja ajamalla komento
+Huom. komennot on suoritettava kansiossa ot-harjoitustyo/SpaceShooter.
+
+### Ohjelman kääntäminen ja suorittaminen
+
+Ohjelman koodi voidaan kääntää IDE:n avulla tai ajamalla komento
 
 ```
 mvn compile exec:java -Dexec.mainClass=spaceshooter.Main
 ```
+
+Suoritettava jar-tiedosto generoidaan komennolla
+
+```
+mvn package
+```
+
+kansioon _target_ nimellä _SpaceShooter-1.0-SNAPSHOT.jar
+
+### Testaus
 
 Testit suoritetaan komennolla
 
@@ -33,6 +47,8 @@ Testikattavuusraportti luodaan tiedostoon _target/site/jacoco/index.html_ komenn
 ```
 mvn test jacoco:report
 ```
+
+### Checkstyle
 
 Tiedostossa [checkstyle.xml](SpaceShooter/checkstyle.xml) määritellyt tarkistukset suoritetaan komennolla
 

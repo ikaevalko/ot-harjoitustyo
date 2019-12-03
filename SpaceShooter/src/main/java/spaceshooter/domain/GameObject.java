@@ -1,39 +1,49 @@
 package spaceshooter.domain;
 
-import javafx.scene.Node;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 
 public class GameObject {
     
-    protected Node graphics;
+    protected Group graphics;
+    protected List<Line> lines;
+    private Color originalColor = Color.WHITE;
     
     public GameObject(Point2D[] lines, Color color) {
         
-        if (lines.length <= 0 || lines.length % 2 != 0) {
-            this.graphics = new Rectangle(10, 10);
+        if (lines == null || lines.length <= 0 || lines.length % 2 != 0) {
+            
+            this.graphics = new Group();
+            this.lines = new ArrayList<>();
+            
+        } else {
+            
+            this.graphics = createGraphics(lines, color);
+            this.originalColor = color;
         }
-        
-        this.graphics = createGraphics(lines, color);
     }
     
     public GameObject() {
         
-        this.graphics = new Rectangle(10, 10);
+        this.graphics = new Group();
+        this.lines = new ArrayList<>();
     }
     
-    private Node createGraphics(Point2D[] lines, Color color) {
+    private Group createGraphics(Point2D[] lines, Color color) {
         
         Group group = new Group();
+        this.lines = new ArrayList<>();
         
         for (int i = 0; i < lines.length - 1; i++) {
             
             Line l = new Line(lines[i].getX(), lines[i].getY(), lines[i + 1].getX(), lines[i + 1].getY());
             l.setStroke(color);
             group.getChildren().add(l);
+            this.lines.add(l);
         }
         
         return group;
@@ -48,6 +58,31 @@ public class GameObject {
     public void setRotation(double rotation) {
         
         graphics.setRotate(rotation);
+    }
+    
+    public void setColor(Color color) {
+        
+        for (Line l : lines) {
+            
+            l.setStroke(color);
+        }
+        
+        this.graphics.getChildren().setAll(lines);
+    }
+    
+    public void resetColor() {
+        
+        setColor(originalColor);
+    }
+    
+    public Group getGraphics() {
+        
+        return this.graphics;
+    }
+    
+    public List<Line> getLines() {
+        
+        return this.lines;
     }
     
     public double getPositionX() {
@@ -83,10 +118,5 @@ public class GameObject {
         } else if (posY > sizeY) {
             graphics.setTranslateY(sizeY);
         }
-    }
-    
-    public Node getGraphics() {
-        
-        return this.graphics;
     }
 }

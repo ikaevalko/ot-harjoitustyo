@@ -1,15 +1,8 @@
 package spaceshooter.input;
 
-import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import spaceshooter.domain.Player;
 
 public class KeyboardOnlyControl extends ControlScheme {
-    
-    public KeyboardOnlyControl(Player player, Scene scene) {
-        
-        super(player, scene);
-    }
     
     @Override
     public void updateMovementInput() {
@@ -62,5 +55,9 @@ public class KeyboardOnlyControl extends ControlScheme {
     @Override
     public void updateShootingInput() {
         
+        if (keyInputs.getOrDefault(KeyCode.K, false)) {
+            
+            player.shoot();
+        }
     }
 }
