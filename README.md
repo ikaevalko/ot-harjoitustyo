@@ -14,6 +14,10 @@ Valittavissa on kaksi tapaa ohjata avaruusalusta:
 
 [Työaikakirjanpito](dokumentaatio/tyoaikakirjanpito.md)
 
+## Releaset
+
+[Viikko5](https://github.com/ikaevalko/ot-harjoitustyo/releases/tag/viikko5)
+
 ## Komennot
 
 Huom. komennot on suoritettava kansiossa _ot-harjoitustyo/SpaceShooter_
