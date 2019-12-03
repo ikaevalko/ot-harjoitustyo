@@ -16,7 +16,7 @@ Valittavissa on kaksi tapaa ohjata avaruusalusta:
 
 ## Komennot
 
-Huom. komennot on suoritettava kansiossa ot-harjoitustyo/SpaceShooter.
+Huom. komennot on suoritettava kansiossa _ot-harjoitustyo/SpaceShooter_
 
 ### Ohjelman kääntäminen ja suorittaminen
 
@@ -32,7 +32,7 @@ Suoritettava jar-tiedosto generoidaan komennolla
 mvn package
 ```
 
-kansioon _target_ nimellä _SpaceShooter-1.0-SNAPSHOT.jar
+kansioon _target_ nimellä _SpaceShooter-1.0-SNAPSHOT.jar_
 
 ### Testaus
 
