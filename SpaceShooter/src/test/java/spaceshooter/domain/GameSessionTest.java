@@ -1,28 +1,42 @@
 package spaceshooter.domain;
 
+import java.util.concurrent.TimeoutException;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.testfx.framework.junit.ApplicationTest;
+import org.testfx.api.FxToolkit;
+import spaceshooter.ui.SpaceShooterUi;
 
-public class GameSessionTest {
+public class GameSessionTest extends ApplicationTest {
     
-    GameSession testSession;
+    Stage stage;
     
-    @Before
-    public void setUp() {
+    @Override
+    public void start(Stage stage) {
         
         Pane base = new Pane();
-        this.testSession = new GameSession(base, new Scene(base, 800, 800), 0);
+        Scene scene = new Scene(base, 800, 800);
+        GameSession testSession = new GameSession(base, scene, 0);
+        stage.setScene(scene);
+    }
+    
+    @Before
+    public void setUp() throws TimeoutException {
+        
+        stage = FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(SpaceShooterUi.class);
     }
     
     @Test
     public void addToSceneWorksCorrectly() {
         
-        testSession.getBase().getChildren().clear();
-        testSession.addToScene(new Group());
-        assertEquals(1, testSession.getBase().getChildren().size());
+        GameSession.getInstance().getBase().getChildren().clear();
+        GameSession.getInstance().addToScene(new Group());
+        assertEquals(1, GameSession.getInstance().getBase().getChildren().size());
     }
 }

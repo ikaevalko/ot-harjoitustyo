@@ -1,22 +1,36 @@
 package spaceshooter.domain;
 
+import java.util.concurrent.TimeoutException;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit.ApplicationTest;
+import spaceshooter.ui.SpaceShooterUi;
 
-public class ShotTest {
+public class ShotTest extends ApplicationTest {
     
-    private GameSession testSession;
     private Shot shot;
+    private Stage stage;
     
-    @Before
-    public void setUp() {
+    @Override
+    public void start(Stage stage) {
         
         Pane base = new Pane();
-        this.testSession = new GameSession(base, new Scene(base, 800, 800), 0);
+        Scene scene = new Scene(base, 800, 800);
+        GameSession testSession = new GameSession(base, scene, 0);
+        stage.setScene(scene);
+    }
+    
+    @Before
+    public void setUp() throws TimeoutException {
+        
+        stage = FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(SpaceShooterUi.class);
         this.shot = new Bullet(new Point2D(1, 0));
     }
     
