@@ -18,4 +18,5 @@
 | 7.12. | 6      | vihollisaallot, pelin päättyminen, pistelaskuri, käyttöliittymän päivitys, lisää javadocia |
 | 8.12. | 4      | alustava käyttöohje, lisää testejä |
 | 9.12. | 3      | MachineGun-luokka, pieniä korjauksia |
+| 10.12.| 2      | pieniä parannuksia, toinen release |
 | yht   | 68     | |

@@ -70,3 +70,11 @@ mvn jxr:jxr checkstyle:checkstyle
 ```
 
 Checkstyle-tarkistuksen tulokset löytyvät tiedostosta _target/site/checkstyle.html_
+
+### Javadoc
+
+Javadoc luodaan kansioon _target/site/apidocs/_ komennolla
+
+```
+mvn javadoc:javadoc
+```
