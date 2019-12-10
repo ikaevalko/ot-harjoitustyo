@@ -21,6 +21,12 @@ Aseen tyyppiä voi vaihtaa numeronäppäimistä. Nykyisessä versiossa on kolme 
 
 [Työaikakirjanpito](dokumentaatio/tyoaikakirjanpito.md)
 
+## Releaset
+
+[Viikko6](https://github.com/ikaevalko/ot-harjoitustyo/releases/tag/viikko6)
+
+[Viikko5](https://github.com/ikaevalko/ot-harjoitustyo/releases/tag/viikko5)
+
 ## Komennot
 
 Huom. komennot on suoritettava kansiossa _ot-harjoitustyo/SpaceShooter_
