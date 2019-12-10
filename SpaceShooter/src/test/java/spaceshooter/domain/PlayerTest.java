@@ -22,7 +22,7 @@ public class PlayerTest extends ApplicationTest {
         
         Pane base = new Pane();
         Scene scene = new Scene(base, 800, 800);
-        GameSession testSession = new GameSession(base, scene, 0);
+        GameSession testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
         stage.setScene(scene);
     }
     
@@ -38,7 +38,7 @@ public class PlayerTest extends ApplicationTest {
     public void constructorSetsVariablesCorrectly() {
         
         assertEquals(0.75, player.getSpeed(), 0.01);
-        assertEquals(3, player.getCondition());
+        assertEquals(30, player.getCondition());
         assertEquals(0, player.getShot());
         assertTrue(player.getShots() != null);
         assertTrue(player.getShots().isEmpty());

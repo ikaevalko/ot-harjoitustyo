@@ -42,6 +42,19 @@ public abstract class ControlScheme {
         updateMovementInput();
         updateRotationInput();
         updateShootingInput();
+        
+        if (keyInputs.getOrDefault(KeyCode.DIGIT1, false)) {
+            
+            player.setShot(0);
+            
+        } else if (keyInputs.getOrDefault(KeyCode.DIGIT2, false)) {
+            
+            player.setShot(1);
+            
+        } else if (keyInputs.getOrDefault(KeyCode.DIGIT3, false)) {
+            
+            player.setShot(2);
+        }
     }
     
     private void setInputActions() {
@@ -63,5 +76,15 @@ public abstract class ControlScheme {
             movementInputX /= length;
             movementInputY /= length;
         }
+    }
+    
+    public double getMovementInputX() {
+        
+        return this.movementInputX;
+    }
+    
+    public double getMovementInputY() {
+        
+        return this.movementInputX;
     }
 }

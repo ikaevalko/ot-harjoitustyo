@@ -7,15 +7,29 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
+/**
+ * The GameObject class acts as a base for any type of object that may be 
+ * added into the game scene. A GameObject can be constructed by passing it 
+ * a Point2D array with an even number of elements and a color value. 
+ * It is also possible to construct a GameObject without graphics.
+ */
 public class GameObject {
     
-    protected Group graphics;
-    protected List<Line> lines;
+    private Group graphics;
+    private List<Line> lines;
     private Color originalColor = Color.WHITE;
     
+    /**
+     * This constructor generates graphics for the GameObject. Note that the 
+     * Point2D array passed to it must have an even number of elements because 
+     * each line is generated based on a pair of points.
+     * 
+     * @param lines Point2D array needed to create graphics for the GameObject
+     * @param color Color of the graphics
+     */
     public GameObject(Point2D[] lines, Color color) {
         
-        if (lines == null || lines.length <= 0 || lines.length % 2 != 0) {
+        if (lines == null || lines.length < 2 || lines.length % 2 != 0) {
             
             this.graphics = new Group();
             this.lines = new ArrayList<>();
@@ -27,6 +41,9 @@ public class GameObject {
         }
     }
     
+    /**
+     * This constructor creates a GameObject without graphics.
+     */
     public GameObject() {
         
         this.graphics = new Group();
@@ -38,7 +55,7 @@ public class GameObject {
         Group group = new Group();
         this.lines = new ArrayList<>();
         
-        for (int i = 0; i < lines.length - 1; i++) {
+        for (int i = 0; i < lines.length - 1; i += 2) {
             
             Line l = new Line(lines[i].getX(), lines[i].getY(), lines[i + 1].getX(), lines[i + 1].getY());
             l.setStroke(color);
@@ -99,6 +116,13 @@ public class GameObject {
         
         return this.graphics.getRotate();
     }
+    
+    /**
+     * Prevents the GameObject from moving outside the boundaries of the scene.
+     * 
+     * @param sizeX The size of the scene on the x axis
+     * @param sizeY The size of the scene on the y axis
+     */
     
     public void keepInsideBounds(double sizeX, double sizeY) {
         

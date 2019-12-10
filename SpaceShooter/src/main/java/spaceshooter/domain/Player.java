@@ -2,8 +2,13 @@ package spaceshooter.domain;
 
 import java.util.ArrayList;
 import javafx.geometry.Point2D;
+import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 
+/**
+ * The Player class represents a type of GameObject that can receive 
+ * instructions from a ControlScheme to move, rotate and shoot.
+ */
 public class Player extends GameObject {
 
     private double accelerationX;
@@ -11,6 +16,8 @@ public class Player extends GameObject {
     private double speed;
     private int condition;
     private int shot;
+    private GameSession session;
+    private Scene scene;
     private ArrayList<Shot> shots;
     private ArrayList<Enemy> enemies;
     private int shotTimer = -1;
@@ -22,23 +29,28 @@ public class Player extends GameObject {
                 Color.LIME);
         
         this.speed = 0.75;
-        this.condition = 3;
+        this.condition = 30;
         this.shot = 0;
         this.shots = new ArrayList<>();
         
         try {
-            this.enemies = GameSession.getInstance().getEnemies();
+            this.session = GameSession.getInstance();
+            this.scene = session.getScene();
+            this.enemies = session.getEnemies();
             
         } catch (Exception e) {
             
             System.out.println("Player: Could not find GameSession");
         }
-        
     }
     
+    /**
+     * Advances the logic of the Player and the Shots it has fired.
+     */
     public void update() {
         
         updateShots();
+        keepInsideBounds(scene.getWidth(), scene.getHeight());
         
         if (shotTimer > 0) {
             
@@ -46,6 +58,13 @@ public class Player extends GameObject {
         }
     }
     
+    /**
+     * Moves the player in a direction determined by x and y with 
+     * accelerating motion.
+     * 
+     * @param x Direction to move on the x axis
+     * @param y Direction to move on the y axis
+     */
     public void move(double x, double y) {
         
         accelerationX += x;
@@ -53,10 +72,13 @@ public class Player extends GameObject {
         accelerationX *= speed;
         accelerationY *= speed;
         
-        graphics.setTranslateX(graphics.getTranslateX() + accelerationX);
-        graphics.setTranslateY(graphics.getTranslateY() + accelerationY);
+        setPosition(getPositionX() + accelerationX, getPositionY() + accelerationY);
     }
     
+    /**
+     * Creates a new Shot in front of the Player and adds it to the shots list 
+     * to be updated. The type of the Shot depends on the shot variable.
+     */
     public void shoot() {
         
         Point2D fwd = getForwardDirection();
@@ -66,17 +88,27 @@ public class Player extends GameObject {
             if (shot == 0) {
 
                 Bullet bullet = new Bullet(fwd);
-                GameSession.getInstance().addToScene(bullet.getGraphics());
-                setShotPosition(bullet, fwd);
-                shots.add(bullet);
-                shotTimer = bullet.getDelay();
+                initializeShot(bullet, fwd);
+                
+            } else if (shot == 1) {
+                
+                ScatterShot scatterShot = new ScatterShot(fwd);
+                initializeShot(scatterShot, fwd);
+                
+            } else if (shot == 2) {
+                
+                MachineGun machineGun = new MachineGun(fwd);
+                initializeShot(machineGun, fwd);
             }
         }
     }
     
-    private void setShotPosition(Shot shot, Point2D direction) {
+    private void initializeShot(Shot shot, Point2D direction) {
         
+        session.addToScene(shot.getGraphics());
         shot.setPosition(getPositionX() + direction.getX() * 10, getPositionY() + direction.getY() * 10);
+        shots.add(shot);
+        shotTimer = shot.getDelay();
     }
     
     private void updateShots() {
@@ -87,14 +119,20 @@ public class Player extends GameObject {
             
             if (shot.getDisabled()) {
                 
-                shot = null;
                 shots.remove(i);
+                session.removeFromScene(shot.getGraphics());
+                shot = null;
                 
             } else {
                 
                 shot.update();
             }
         }
+    }
+    
+    public void setShot(int shot) {
+        
+        this.shot = shot;
     }
     
     public double getSpeed() {
@@ -122,6 +160,11 @@ public class Player extends GameObject {
         return this.enemies;
     }
     
+    /**
+     * Gets the direction in which the player is facing as a Point2D.
+     * 
+     * @return the forward direction of the player
+     */
     public Point2D getForwardDirection() {
         
         double x = Math.cos(Math.toRadians(getRotation() - 90));

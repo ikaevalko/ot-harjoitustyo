@@ -6,17 +6,18 @@ import javafx.scene.paint.Color;
 
 public abstract class Enemy extends GameObject {
     
-    protected Scene scene;
-    protected Player player;
-    protected double speed;
-    protected double originalSpeed;
-    protected int condition;
-    protected boolean destroyed;
-    protected double movementDirX;
-    protected double movementDirY;
+    private Scene scene;
+    private Player player;
+    private double speed;
+    private double originalSpeed;
+    private int condition;
+    private boolean destroyed;
+    private double movementDirX;
+    private double movementDirY;
     private int collisionTimer = -1;
     private int damageTimer = -1;
-    private boolean takingDamage;
+    private boolean takingDamage = false;
+    private boolean enteredBounds = false;
     
     public Enemy(Point2D[] lines, Color color, double speed, int condition) {
         
@@ -34,8 +35,6 @@ public abstract class Enemy extends GameObject {
         this.speed = speed;
         this.originalSpeed = this.speed;
         this.condition = condition;
-        this.collisionTimer = -1;
-        this.damageTimer = -1;
     }
     
     public void update() {
@@ -44,7 +43,11 @@ public abstract class Enemy extends GameObject {
             return;
         }
         
-        if (isInsideBounds()) {
+        if (!enteredBounds && isInsideBounds()) {
+            
+            enteredBounds = true;
+            
+        } else if (enteredBounds) {
             
             keepInsideBounds(scene.getWidth(), scene.getHeight());
         }
@@ -61,7 +64,7 @@ public abstract class Enemy extends GameObject {
                 resetColor();
             }
             
-            speed = originalSpeed * 0.8;
+            speed = originalSpeed * 0.6;
             damageTimer--;
             
         } else if (takingDamage) {
@@ -81,8 +84,7 @@ public abstract class Enemy extends GameObject {
         movementDirX *= speed;
         movementDirY *= speed;
         
-        graphics.setTranslateX(graphics.getTranslateX() + movementDirX);
-        graphics.setTranslateY(graphics.getTranslateY() + movementDirY);
+        setPosition(getPositionX() + movementDirX, getPositionY() + movementDirY);
     }
     
     protected void normalizeMovementDirection() {
@@ -100,7 +102,7 @@ public abstract class Enemy extends GameObject {
         double x = getPositionX();
         double y = getPositionY();
 
-        if (x >= 0 && x <= scene.getWidth() && y >= 0 && y <= scene.getHeight()) {
+        if ((x > 0 && x < scene.getWidth()) && (y > 0 && y < scene.getHeight())) {
 
             return true;
         }
@@ -112,9 +114,9 @@ public abstract class Enemy extends GameObject {
         
         if (collisionTimer <= 0) {
             
-            if (this.graphics.getBoundsInParent().intersects(player.getGraphics().getBoundsInParent())) {
+            if (getGraphics().getBoundsInParent().intersects(player.getGraphics().getBoundsInParent())) {
                 
-                takeDamage(1);
+                takeDamage(10);
                 collisionTimer = 5;
             }
             
@@ -133,13 +135,28 @@ public abstract class Enemy extends GameObject {
         
         if (condition <= 0) {
             
-            graphics.setVisible(false);
+            getGraphics().setVisible(false);
             destroyed = true;
         }
+    }
+    
+    public double getSpeed() {
+        
+        return this.speed;
+    }
+    
+    public int getCondition() {
+        
+        return this.condition;
     }
     
     public boolean getDestroyed() {
         
         return this.destroyed;
+    }
+    
+    public void setPlayer(Player player) {
+        
+        this.player = player;
     }
 }

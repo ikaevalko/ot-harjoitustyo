@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 
+/**
+ * The Shot class provides the base functionality for all objects that 
+ * the player can shoot.
+ */
 public abstract class Shot extends GameObject {
     
-    protected double speed;
-    protected int damage;
-    protected int delay;
-    protected double directionX;
-    protected double directionY;
-    protected boolean disabled;
+    private double speed;
+    private int damage;
+    private int delay;
+    private double directionX;
+    private double directionY;
+    private boolean disabled;
     private ArrayList<Enemy> enemies;
     
     public Shot(Point2D[] lines, Color color, Point2D direction, double speed, int damage, int delay) {
@@ -33,22 +37,23 @@ public abstract class Shot extends GameObject {
         this.delay = delay;
     }
     
-    public void update() {
-        
-        if (disabled) {
-            return;
-        }
-    }
+    /**
+     * Subclasses implement their specific update methods.
+     */
+    public abstract void update();
     
+    /**
+     * Checks collision with all current enemies in the scene. 
+     * Damages an enemy and disables this object upon collision.
+     */
     protected void checkCollision() {
         
         for (Enemy enemy : enemies) {
             
-            if (this.graphics.getBoundsInParent().intersects(enemy.getGraphics().getBoundsInParent())) {
+            if (getGraphics().getBoundsInParent().intersects(enemy.getGraphics().getBoundsInParent())) {
                 
                 enemy.takeDamage(damage);
-                graphics.setVisible(false);
-                disabled = true;
+                setDisabled(true);
             }
         }
     }
@@ -86,5 +91,17 @@ public abstract class Shot extends GameObject {
     public ArrayList<Enemy> getEnemies() {
         
         return this.enemies;
+    }
+    
+    public void setDisabled(boolean disabled) {
+        
+        getGraphics().setVisible(false);
+        this.disabled = disabled;
+    }
+    
+    public void setDirection(Point2D direction) {
+        
+        this.directionX = direction.getX();
+        this.directionY = direction.getY();
     }
 }

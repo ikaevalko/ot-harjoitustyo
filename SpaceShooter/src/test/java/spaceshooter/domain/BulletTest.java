@@ -12,9 +12,9 @@ import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import spaceshooter.ui.SpaceShooterUi;
 
-public class ShotTest extends ApplicationTest {
+public class BulletTest extends ApplicationTest {
     
-    private Shot shot;
+    Bullet bullet;
     private Stage stage;
     
     @Override
@@ -31,28 +31,30 @@ public class ShotTest extends ApplicationTest {
         
         stage = FxToolkit.registerPrimaryStage();
         FxToolkit.setupApplication(SpaceShooterUi.class);
-        this.shot = new Bullet(new Point2D(1, 0));
+        this.bullet = new Bullet(new Point2D(1, 0));
     }
     
     @Test
-    public void constructorSetsVariablesCorrectly() {
+    public void bulletMovesInTheRightDirection() {
         
-        assertTrue(shot.getEnemies() != null);
-        assertEquals(1, shot.getDirectionX(), 0.1);
-        assertEquals(0, shot.getDirectionY(), 0.1);
-        assertEquals(5.0, shot.getSpeed(), 0.1);
-        assertEquals(10, shot.getDamage());
-        assertEquals(25, shot.getDelay());
+        for (int i = 0; i < 20; i++) {
+            
+            bullet.update();
+        }
+        
+        assertTrue(bullet.getPositionX() > 50);
+        assertTrue(bullet.getPositionY() > -5);
+        assertTrue(bullet.getPositionY() < 5);
     }
     
     @Test
-    public void shotCollidesWithEnemy() {
+    public void bulletGetsDisabledAfterDisablingTimer() {
         
-        BasicEnemy enemy = new BasicEnemy();
-        enemy.setPosition(100, 100);
-        shot.getEnemies().add(enemy);
-        shot.setPosition(100, 100);
-        shot.update();
-        assertTrue(shot.getDisabled());
+        for (int i = 0; i <= 100; i++) {
+            
+            bullet.update();
+        }
+        
+        assertTrue(bullet.getDisabled());
     }
 }

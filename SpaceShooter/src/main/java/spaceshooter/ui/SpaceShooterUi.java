@@ -12,9 +12,17 @@ import javafx.animation.AnimationTimer;
 import javafx.geometry.Insets;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import spaceshooter.domain.GameSession;
 
+/**
+ * The SpaceShooterUi class handles building scenes and switching between them, 
+ * as well as starting a new GameSession.
+ */
 public class SpaceShooterUi extends Application {
     
     private Stage stage;
@@ -22,45 +30,44 @@ public class SpaceShooterUi extends Application {
     private Scene newGameMenu;
     private int controlScheme = 0;
     
+    /**
+     * Sets up the application window and main menu.
+     * 
+     * @param primaryStage The main window of the application
+     */
     @Override
     public void start(Stage primaryStage) {
         
         this.stage = primaryStage;
         createMainMenu();
+        createNewGameMenu();
         enterMainMenu();
         stage.setTitle("Space Shooter");
+        stage.setResizable(false);
         stage.show();
     }
-    
+
     private void createMainMenu() {
         
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
+        layout.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         
         Label title = new Label("Space Shooter");
+        title.textFillProperty().setValue(Color.WHITE);
         title.setStyle("-fx-font-size: 20");
         Button newGame = new Button("New Game");
         Button scoreboard = new Button("Scoreboard");
         Button quit = new Button("Quit");
         
-        Insets padding = new Insets(10, 10, 10, 10);
-        
-        title.setPadding(padding);
-        newGame.setPadding(padding);
-        scoreboard.setPadding(padding);
-        quit.setPadding(padding);
+        title.setPadding(new Insets(10, 10, 40, 10));
+        newGame.setPadding(new Insets(10, 10, 10, 10));
+        scoreboard.setPadding(new Insets(10, 10, 10, 10));
+        quit.setPadding(new Insets(10, 10, 10, 10));
         
         newGame.setOnAction(e->{
             
-            if (newGameMenu != null) {
-                
-                enterNewGameMenu();
-                
-            } else {
-                
-                createNewGameMenu();
-                enterNewGameMenu();
-            }
+            enterNewGameMenu();
         });
         
         quit.setOnAction(e->{
@@ -82,12 +89,17 @@ public class SpaceShooterUi extends Application {
         
         VBox layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
+        layout.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         
         Label text = new Label("Choose control scheme");
+        text.textFillProperty().setValue(Color.WHITE);
         text.setStyle("-fx-font-size: 16");
         RadioButton mouseKeyboardControl = new RadioButton("Mouse + Keyboard");
         RadioButton keyboardOnlyControl = new RadioButton("Keyboard only");
         ToggleGroup group = new ToggleGroup();
+        
+        mouseKeyboardControl.textFillProperty().setValue(Color.WHITE);
+        keyboardOnlyControl.textFillProperty().setValue(Color.WHITE);
         
         mouseKeyboardControl.setUserData(0);
         keyboardOnlyControl.setUserData(1);
@@ -111,12 +123,11 @@ public class SpaceShooterUi extends Application {
             enterMainMenu();
         });
         
-        Insets padding = new Insets(10, 10, 10, 10);
-        
-        text.setPadding(padding);
-        keyboardOnlyControl.setPadding(new Insets(0, 0, 50, 0));
-        start.setPadding(padding);
-        back.setPadding(padding);
+        text.setPadding(new Insets(10, 10, 10, 10));
+        mouseKeyboardControl.setPadding(new Insets(10, 10, 5, 10));
+        keyboardOnlyControl.setPadding(new Insets(0, 0, 20, 0));
+        start.setPadding(new Insets(10, 10, 10, 10));
+        back.setPadding(new Insets(10, 10, 10, 10));
         
         layout.getChildren().addAll(text, mouseKeyboardControl, keyboardOnlyControl, start, back);
         newGameMenu = new Scene(layout, 800, 800);
@@ -130,8 +141,9 @@ public class SpaceShooterUi extends Application {
     private void startNewGame() {
         
         Pane base = new Pane();
+        base.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         Scene scene = new Scene(base, 800, 800);
-        GameSession session = new GameSession(base, scene, controlScheme);
+        GameSession session = new GameSession(this, base, scene, controlScheme);
         
         stage.setScene(scene);
         
@@ -145,6 +157,49 @@ public class SpaceShooterUi extends Application {
         timer.start();
     }
     
+    public void showGameOverScreen(Scene scene, int score, int wavesCompleted) {
+        
+        VBox layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
+        layout.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+        
+        Label endTitle = new Label("You win!");
+        endTitle.textFillProperty().setValue(Color.WHITE);
+        
+        Label endScore = new Label("Score: " + Integer.toString(score));
+        endScore.textFillProperty().setValue(Color.WHITE);
+        
+        Label waves = new Label("Waves completed: " + Integer.toString(wavesCompleted));
+        waves.textFillProperty().setValue(Color.WHITE);
+        
+        Button playAgain = new Button("Play Again");
+        Button mainMenu = new Button("Main Menu");
+        
+        endTitle.setPadding(new Insets(10, 10, 10, 10));
+        endScore.setPadding(new Insets(20, 10, 0, 10));
+        waves.setPadding(new Insets(0, 10, 40, 10));
+        playAgain.setPadding(new Insets(10, 10, 10, 10));
+        mainMenu.setPadding(new Insets(10, 10, 10, 10));
+        
+        playAgain.setOnAction(e -> {
+            
+            startNewGame();
+        });
+        
+        mainMenu.setOnAction(e -> {
+            
+            enterMainMenu();
+        });
+        
+        layout.getChildren().addAll(endTitle, endScore, waves, playAgain, mainMenu);
+        scene.setRoot(layout);
+    }
+    
+    /**
+     * Launches the JavaFX application.
+     * 
+     * @param args 
+     */
     public static void main(String[] args) {
         launch(args);
     }

@@ -6,7 +6,14 @@ Valittavissa on kaksi tapaa ohjata avaruusalusta:
 - WASD + Hiiri
 - WASD + JKL
 
+Aseen tyyppiä voi vaihtaa numeronäppäimistä. Nykyisessä versiossa on kolme asetta:
+- Bullet (1)
+- ScatterShot (2)
+- MachineGun (3)
+
 ## Dokumentaatio
+
+[Käyttöohje](dokumentaatio/kayttoohje.md)
 
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
 

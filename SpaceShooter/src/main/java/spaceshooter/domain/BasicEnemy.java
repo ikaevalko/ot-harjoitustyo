@@ -17,7 +17,7 @@ public class BasicEnemy extends Enemy {
                              new Point2D(-8, Math.sqrt(3) * 0.5 * -16), new Point2D(8, Math.sqrt(3) * 0.5 * -16), 
                              new Point2D(8, Math.sqrt(3) * 0.5 * -16), new Point2D(16, 0) ,
                              new Point2D(0, 0), new Point2D(0, 0)}, 
-                Color.RED, 3.2, 6);
+                Color.RED, 3.2, 60);
 
         this.rotationDirection = new Random().nextBoolean();
     }
@@ -29,11 +29,11 @@ public class BasicEnemy extends Enemy {
         
         if (rotationDirection) {
             
-            setRotation(graphics.getRotate() + 6);
+            setRotation(getRotation() + 6);
             
         } else {
             
-            setRotation(graphics.getRotate() - 6);
+            setRotation(getRotation() - 6);
         }
         
         moveTowardsPlayer();

@@ -13,4 +13,9 @@
 | 27.11.| 5      | ensimmäinen vihollinen, alustava spawner-looppi |
 | 28.11.| 6      | ampumistoiminnallisuus, refaktorointi, luokkakaavion päivitys |
 | 1.12. | 6      | projektin valmistelua ensimmäiseen releaseen, sekvenssikaavio pelaajan liikuttamisesta, lisää testejä |
-| yht   | 46     | |
+| 3.12. | 4      | testfx:n käyttöönotto, ensimmäinen release |
+| 5.12. | 5      | javadocin aloitus, ScatterShot-luokka |
+| 7.12. | 6      | vihollisaallot, pelin päättyminen, pistelaskuri, käyttöliittymän päivitys, lisää javadocia |
+| 8.12. | 4      | alustava käyttöohje, lisää testejä |
+| 9.12. | 3      | MachineGun-luokka, pieniä korjauksia |
+| yht   | 68     | |

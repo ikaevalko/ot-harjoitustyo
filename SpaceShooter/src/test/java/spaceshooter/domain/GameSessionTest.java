@@ -3,6 +3,7 @@ package spaceshooter.domain;
 import java.util.concurrent.TimeoutException;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.junit.Before;
@@ -14,14 +15,15 @@ import spaceshooter.ui.SpaceShooterUi;
 
 public class GameSessionTest extends ApplicationTest {
     
-    Stage stage;
+    private GameSession testSession;
+    private Stage stage;
     
     @Override
     public void start(Stage stage) {
         
         Pane base = new Pane();
         Scene scene = new Scene(base, 800, 800);
-        GameSession testSession = new GameSession(base, scene, 0);
+        testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
         stage.setScene(scene);
     }
     
@@ -33,10 +35,30 @@ public class GameSessionTest extends ApplicationTest {
     }
     
     @Test
+    public void addEnemyWorksCorrectly() {
+        
+        testSession.addEnemy(new BasicEnemy());
+        assertEquals(1, testSession.getEnemies().size());
+    }
+    
+    @Test
     public void addToSceneWorksCorrectly() {
         
-        GameSession.getInstance().getBase().getChildren().clear();
-        GameSession.getInstance().addToScene(new Group());
-        assertEquals(1, GameSession.getInstance().getBase().getChildren().size());
+        testSession.getBase().getChildren().clear();
+        testSession.addToScene(new Group());
+        assertEquals(1, testSession.getBase().getChildren().size());
+    }
+    
+    @Test
+    public void enemiesUpdateCorrectly() {
+        
+        testSession.update();
+        testSession.getEnemies().clear();
+        testSession.addEnemy(new BasicEnemy());
+        Enemy e = new BasicEnemy();
+        testSession.addEnemy(e);
+        e.takeDamage(100);
+        testSession.update();
+        assertEquals(1, testSession.getEnemies().size());
     }
 }

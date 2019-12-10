@@ -21,7 +21,7 @@ public class GameObjectTest {
     @Test
     public void canBeCreatedWithGraphics() {
         
-        assertFalse(gameObject.lines.isEmpty());
+        assertFalse(gameObject.getLines().isEmpty());
     }
     
     @Test
@@ -74,7 +74,7 @@ public class GameObjectTest {
         
         for (Line l : gameObject.getLines()) {
             
-            assertEquals(Color.WHITE, l.getStroke());
+            assertTrue(l.getStroke().equals(Color.WHITE));
         }
     }
     
