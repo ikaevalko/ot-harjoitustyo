@@ -33,6 +33,8 @@ Aseen tyyppiä voi vaihtaa numeronäppäimistä. Nykyisessä versiossa on kolme 
 
 ## Releaset
 
+[Loppupalautus](https://github.com/ikaevalko/ot-harjoitustyo/releases/tag/loppupalautus)
+
 [Viikko6](https://github.com/ikaevalko/ot-harjoitustyo/releases/tag/viikko6)
 
 [Viikko5](https://github.com/ikaevalko/ot-harjoitustyo/releases/tag/viikko5)
