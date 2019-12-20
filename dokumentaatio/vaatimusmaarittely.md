@@ -8,7 +8,7 @@ Sovellus on avaruuslentelypeli, jossa tarkoituksena on selvitä mahdollisimman m
 
 - Ohjelman käynnistyttyä näytetään päävalikko, jossa voi:
 	* aloittaa uuden pelin (**tehty**)
-	* siirtyä tarkastelemaan pistetaulukkoa
+	* siirtyä tarkastelemaan pistetaulukkoa (**tehty**)
 	* sulkea pelin (**tehty**)
 - Pelaaja voi valita kontrollien tyypin:
 	* hiiri ja näppäimistö (**tehty**)
@@ -18,12 +18,17 @@ Sovellus on avaruuslentelypeli, jossa tarkoituksena on selvitä mahdollisimman m
 	* Bullet (**tehty**)
 	* ScatterShot (**tehty**)
 	* MachineGun (**tehty**)
+- Pelaaja voi tehdä väistöliikkeen tietyin väliajoin (**tehty**)
 - Pelialueelle ilmestyy vihollisia aalto kerrallaan (**tehty**)
 - Pelaaja voi edetä pelissä tuhoamalla vihollisaluksia (**tehty**)
 - Pelaajan pistemäärä kasvaa pelin edetessä (**tehty**)
-- Viholliset voivat vahingoittaa pelaajaa
-- Tuhotuista vihollisaluksista putoaa satunnaisesti tehosteita, joita pelaaja voi kerätä
-- Pelin edetessä vihollisten määrä ja haastavuus kasvaa (**määrä kasvaa, viholliset pysyvät samana**)
-- Peli päättyy, jos pelaajan avaruusalus tuhoutuu
+- Pelin edetessä vihollisaaltojen haastavuus kasvaa (**tehty**)
+- Viholliset voivat vahingoittaa pelaajaa (**tehty**)
+- Peli päättyy, jos pelaajan avaruusalus tuhoutuu (**tehty**)
 - Peli päättyy, jos pelaaja läpäisee tarpeeksi vihollisaaltoja (**tehty**)
-- Pelaaja voi pelin päätyttyä tallettaa pistemääränsä tietokantaan haluamallaan nimellä
+- Pelaaja voi pelin päätyttyä tallettaa pistemääränsä tietokantaan haluamallaan nimellä (**tehty**)
+
+## Jatkokehitysideat
+
+- Tuhotuista vihollisaluksista putoaa satunnaisesti tehosteita, joita pelaaja voi kerätä
+- Helpommin määriteltävät vihollisaallot (vihollisten määrä, järjestys, ja tyyppi)

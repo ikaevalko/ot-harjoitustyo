@@ -60,4 +60,13 @@ public class KeyboardOnlyControl extends ControlScheme {
             player.shoot();
         }
     }
+    
+    @Override
+    public void updateDodgeInput() {
+        
+        if (keyInputs.getOrDefault(KeyCode.SPACE, false)) {
+            
+            player.dodge();
+        }
+    }
 }

@@ -1,6 +1,6 @@
 package spaceshooter.domain;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Random;
 import javafx.geometry.Point2D;
 
@@ -11,7 +11,7 @@ import javafx.geometry.Point2D;
  */
 public class Wave {
     
-    private HashMap<Integer, Integer> enemies;
+    private ArrayList<int[]> enemies;
     private GameSession session;
     private int difficulty;
     private int spawnRate;
@@ -27,7 +27,8 @@ public class Wave {
             System.out.println("Wave: Could not find GameSession");
         }
         
-        this.enemies = new HashMap<>();
+        this.enemies = new ArrayList<>();
+        
         this.difficulty = difficulty;
         this.spawnRate = 200 - difficulty * 20;
         setEnemies();
@@ -38,14 +39,24 @@ public class Wave {
         return this.completed;
     }
     
+    public int getDifficulty() {
+        
+        return this.difficulty;
+    }
+    
     public int getSpawnRate() {
         
         return this.spawnRate;
     }
     
+    public ArrayList<int[]> getEnemies() {
+        
+        return this.enemies;
+    }
+    
     /**
      * Creates a random type of enemy to be spawned and subtracts its 
-     * corresponding value in the enemies HashMap. Marks this wave completed 
+     * corresponding value in the enemies list. Marks this wave completed 
      * if all enemies have been spawned.
      */
     public void spawnEnemy() {
@@ -54,19 +65,26 @@ public class Wave {
             return;
         }
         
-        int enemy = new Random().nextInt(enemies.keySet().size());
+        int index = new Random().nextInt(enemies.size());
+        int[] enemy = enemies.get(index);
+        int id = enemy[0];
         
-        if (enemy == 0) {
+        if (id == 0) {
             
             BasicEnemy basicEnemy = new BasicEnemy();
             initializeEnemy(basicEnemy);
+            
+        } else if (id == 1) {
+            
+            DashEnemy dashEnemy = new DashEnemy();
+            initializeEnemy(dashEnemy);
         }
         
-        enemies.put(enemy, enemies.get(enemy) - 1);
+        enemy[1]--;
         
-        if (enemies.get(enemy) <= 0) {
+        if (enemy[1] <= 0) {
             
-            enemies.remove(enemy);
+            enemies.remove(index);
         }
         
         if (enemies.isEmpty()) {
@@ -85,20 +103,39 @@ public class Wave {
     
     private void setEnemies() {
         
-        int amount = (int)Math.ceil(Math.log10(difficulty + 1) * 9);
+        int amount = (int) Math.ceil(Math.log10(difficulty + 1) * 9);
         
         for (int i = 0; i < amount; i++) {
             
-            int e = 0;
+            int e = new Random().nextInt(2);
+            int index = containsEnemy(e);
             
-            if (enemies.containsKey(e)) {
+            if (index == -1) {
                 
-                enemies.put(e, enemies.get(e) + 1);
+                enemies.add(new int[] {e, 1});
                 
             } else {
                 
-                enemies.put(e, 1);
+                enemies.get(index)[1]++;
             }
         }
+    }
+    
+    private int containsEnemy(int enemy) {
+        
+        if (enemies.isEmpty()) {
+            
+            return -1;
+        }
+        
+        for (int i = 0; i < enemies.size(); i++) {
+            
+            if (enemies.get(i)[0] == enemy) {
+                
+                return i;
+            }
+        }
+        
+        return -1;
     }
 }

@@ -85,6 +85,11 @@ public class GameSession {
         player.update();
         updateEnemies();
         updateWaves();
+        
+        if (player.getDestroyed()) {
+            
+            endGame(false);
+        }
     }
     
     private void updateEnemies() {
@@ -123,10 +128,7 @@ public class GameSession {
             
             if (currentWaveIndex >= waves.size() - 1) {
                 
-                ui.showGameOverScreen(scene, score, currentWaveIndex + 1);
-                waveText.setVisible(false);
-                scoreDisplay.setVisible(false);
-                gameOver = true;
+                endGame(true);
                 
             } else {
                 
@@ -182,6 +184,14 @@ public class GameSession {
         base.getChildren().add(waveText);
         waveText.setTranslateX(scene.getWidth() * 0.5 - 20);
         waveText.setTranslateY(20);
+    }
+    
+    private void endGame(boolean victory) {
+        
+        ui.showGameOverScreen(scene, score, currentWaveIndex + 1, victory);
+        waveText.setVisible(false);
+        scoreDisplay.setVisible(false);
+        gameOver = true;
     }
     
     /**

@@ -112,6 +112,11 @@ public class GameObject {
         return this.graphics.getTranslateY();
     }
     
+    public Point2D getPosition() {
+        
+        return new Point2D(this.graphics.getTranslateX(), this.graphics.getTranslateY());
+    }
+    
     public double getRotation() {
         
         return this.graphics.getRotate();

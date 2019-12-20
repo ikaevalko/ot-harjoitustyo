@@ -4,6 +4,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 
+/**
+ * The Enemy class provides the base functionality for all enemies.
+ */
 public abstract class Enemy extends GameObject {
     
     private Scene scene;
@@ -12,12 +15,13 @@ public abstract class Enemy extends GameObject {
     private double originalSpeed;
     private int condition;
     private boolean destroyed;
-    private double movementDirX;
-    private double movementDirY;
+    private double accelerationX;
+    private double accelerationY;
     private int collisionTimer = -1;
     private int damageTimer = -1;
     private boolean takingDamage = false;
     private boolean enteredBounds = false;
+    private boolean slowable = true;
     
     public Enemy(Point2D[] lines, Color color, double speed, int condition) {
         
@@ -37,11 +41,16 @@ public abstract class Enemy extends GameObject {
         this.condition = condition;
     }
     
+    /**
+     * Advances the logic of the Enemy.
+     */
     public void update() {
         
         if (destroyed) {
             return;
         }
+        
+        updateDamageTimer();
         
         if (!enteredBounds && isInsideBounds()) {
             
@@ -51,50 +60,95 @@ public abstract class Enemy extends GameObject {
             
             keepInsideBounds(scene.getWidth(), scene.getHeight());
         }
+    }
+    
+    private void updateDamageTimer() {
         
         if (damageTimer > 0) {
             
-            if (damageTimer > 18) {
+            if (damageTimer == 19) {
+                
                 setColor(Color.WHITE);
-            } else if (damageTimer > 16) {
+                
+            } else if (damageTimer == 17) {
+                
                 resetColor();
-            } else if (damageTimer > 14) {
+                
+            } else if (damageTimer == 15) {
+                
                 setColor(Color.WHITE);
-            } else {
+                
+            } else if (damageTimer == 13) {
+                
                 resetColor();
             }
             
-            speed = originalSpeed * 0.6;
+            if (slowable) {
+                
+                setSpeed(originalSpeed - 0.1);
+            }
+            
             damageTimer--;
             
         } else if (takingDamage) {
             
+            if (slowable) {
+                
+                resetSpeed();
+            }
+            
             resetColor();
-            speed = originalSpeed;
             takingDamage = false;
         }
     }
     
-    protected void moveTowardsPlayer() {
+    /**
+     * Moves the Enemy in a direction of x and y with accelerating motion.
+     * 
+     * @param x Direction to move on the x axis
+     * @param y Direction to move on the y axis
+     */
+    protected void move(double x, double y) {
         
-        movementDirX = player.getPositionX() - this.getPositionX();
-        movementDirY = player.getPositionY() - this.getPositionY();
+        accelerationX += x;
+        accelerationY += y;
+        accelerationX *= speed;
+        accelerationY *= speed;
         
-        normalizeMovementDirection();
-        movementDirX *= speed;
-        movementDirY *= speed;
-        
-        setPosition(getPositionX() + movementDirX, getPositionY() + movementDirY);
+        setPosition(getPositionX() + accelerationX, getPositionY() + accelerationY);
     }
     
-    protected void normalizeMovementDirection() {
+    /**
+     * Rotates the Enemy so that it points directly at the Player.
+     */
+    protected void lookAtPlayer() {
         
-        double length = Math.sqrt(movementDirX * movementDirX + movementDirY * movementDirY);
+        Point2D dir = getDirectionToPlayer();
+        setRotation((Math.atan2(dir.getX(), dir.getY()) * -180 / Math.PI) + 180);
+    }
+
+    protected Point2D normalizeDirection(Point2D direction) {
+        
+        double length = Math.sqrt(direction.getX() * direction.getX() + direction.getY() * direction.getY());
+        double x = direction.getX();
+        double y = direction.getY();
         
         if (length > 0) {
-            movementDirX /= length;
-            movementDirY /= length;
+            x /= length;
+            y /= length;
         }
+        
+        return new Point2D(x, y);
+    }
+    
+    protected Point2D getDirectionToPlayer() {
+        
+        return new Point2D(player.getPositionX() - this.getPositionX(), player.getPositionY() - this.getPositionY());
+    }
+    
+    protected double getDistanceToPlayer() {
+        
+        return Math.sqrt(Math.pow(player.getPositionX() - this.getPositionX(), 2) + Math.pow(player.getPositionY() - this.getPositionY(), 2));
     }
     
     protected boolean isInsideBounds() {
@@ -116,8 +170,13 @@ public abstract class Enemy extends GameObject {
             
             if (getGraphics().getBoundsInParent().intersects(player.getGraphics().getBoundsInParent())) {
                 
-                takeDamage(10);
-                collisionTimer = 5;
+                if (player.getInvulnerable()) {
+                    return;
+                }
+                
+                damage(10);
+                player.damage(10);
+                collisionTimer = 20;
             }
             
         } else {
@@ -126,10 +185,14 @@ public abstract class Enemy extends GameObject {
         }
     }
     
-    public void takeDamage(int dmg) {
+    /**
+     * Damages the Enemy and destroys it if condition is zero or less.
+     * 
+     * @param dmg The amount of damage dealt
+     */
+    public void damage(int dmg) {
         
         condition -= dmg;
-        
         damageTimer = 20;
         takingDamage = true;
         
@@ -145,6 +208,11 @@ public abstract class Enemy extends GameObject {
         return this.speed;
     }
     
+    public double getOriginalSpeed() {
+        
+        return this.originalSpeed;
+    }
+    
     public int getCondition() {
         
         return this.condition;
@@ -153,6 +221,26 @@ public abstract class Enemy extends GameObject {
     public boolean getDestroyed() {
         
         return this.destroyed;
+    }
+    
+    public Player getPlayer() {
+        
+        return this.player;
+    }
+    
+    public void setSpeed(double speed) {
+        
+        this.speed = speed;
+    }
+    
+    public void resetSpeed() {
+        
+        this.speed = originalSpeed;
+    }
+    
+    public void setSlowable(boolean slowable) {
+        
+        this.slowable = slowable;
     }
     
     public void setPlayer(Player player) {

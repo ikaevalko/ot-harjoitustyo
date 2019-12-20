@@ -2,9 +2,17 @@
 
 Harjoitustyön aiheena on avaruuslentelypeli, jossa tarkoituksena on selvitä mahdollisimman monesta vihollisaallosta.
 
-Valittavissa on kaksi tapaa ohjata avaruusalusta:
-- WASD + Hiiri
-- WASD + JKL
+Kontrollityypin "Mouse + Keyboard" painikkeet:
+- liiku = WASD
+- tähtää = hiiri
+- ammu = hiiren vasen nappi
+- väistä = hiiren oikea nappi
+
+Kontrollityypin "Keyboard Only" painikkeet:
+- liiku = WASD
+- tähtää = J, L
+- ammu = K
+- väistä = välilyönti
 
 Aseen tyyppiä voi vaihtaa numeronäppäimistä. Nykyisessä versiossa on kolme asetta:
 - Bullet (1)
@@ -18,6 +26,8 @@ Aseen tyyppiä voi vaihtaa numeronäppäimistä. Nykyisessä versiossa on kolme 
 [Vaatimusmäärittely](dokumentaatio/vaatimusmaarittely.md)
 
 [Arkkitehtuuri](dokumentaatio/arkkitehtuuri.md)
+
+[Testaus](dokumentaatio/testaus.md)
 
 [Työaikakirjanpito](dokumentaatio/tyoaikakirjanpito.md)
 

@@ -15,6 +15,7 @@ public abstract class ControlScheme {
     protected double movementInputY;
     protected double currentRotation;
     protected boolean shooting;
+    protected boolean dodging;
     
     public ControlScheme() {
         
@@ -31,17 +32,35 @@ public abstract class ControlScheme {
         setInputActions();
     }
     
+    /**
+     * Updates the input that handles player movement.
+     */
     abstract void updateMovementInput();
     
+    /**
+     * Updates the input that handles player rotation.
+     */
     abstract void updateRotationInput();
     
+    /**
+     * Updates the input that handles shooting.
+     */
     abstract void updateShootingInput();
     
+    /**
+     * Updates the input that handles dodging.
+     */
+    abstract void updateDodgeInput();
+    
+    /**
+     * Calls update methods that listen for keystrokes.
+     */
     public void update() {
         
         updateMovementInput();
         updateRotationInput();
         updateShootingInput();
+        updateDodgeInput();
         
         if (keyInputs.getOrDefault(KeyCode.DIGIT1, false)) {
             

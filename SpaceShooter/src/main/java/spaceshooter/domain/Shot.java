@@ -52,7 +52,7 @@ public abstract class Shot extends GameObject {
             
             if (getGraphics().getBoundsInParent().intersects(enemy.getGraphics().getBoundsInParent())) {
                 
-                enemy.takeDamage(damage);
+                enemy.damage(damage);
                 setDisabled(true);
             }
         }

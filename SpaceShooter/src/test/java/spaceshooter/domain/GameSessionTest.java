@@ -3,12 +3,11 @@ package spaceshooter.domain;
 import java.util.concurrent.TimeoutException;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.api.FxToolkit;
 import spaceshooter.ui.SpaceShooterUi;
@@ -16,22 +15,23 @@ import spaceshooter.ui.SpaceShooterUi;
 public class GameSessionTest extends ApplicationTest {
     
     private GameSession testSession;
-    private Stage stage;
     
-    @Override
-    public void start(Stage stage) {
+    @BeforeClass
+    public static void setUpClass() throws TimeoutException {
         
-        Pane base = new Pane();
-        Scene scene = new Scene(base, 800, 800);
-        testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
-        stage.setScene(scene);
+        FxToolkit.registerPrimaryStage();
     }
     
     @Before
     public void setUp() throws TimeoutException {
         
-        stage = FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(SpaceShooterUi.class);
+        Pane base = new Pane();
+        Scene scene = new Scene(base, 800, 800);
+        testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
+        
+        FxToolkit.setupStage(stage -> {
+            stage.setScene(scene);
+        });
     }
     
     @Test
@@ -57,7 +57,7 @@ public class GameSessionTest extends ApplicationTest {
         testSession.addEnemy(new BasicEnemy());
         Enemy e = new BasicEnemy();
         testSession.addEnemy(e);
-        e.takeDamage(100);
+        e.damage(100);
         testSession.update();
         assertEquals(1, testSession.getEnemies().size());
     }

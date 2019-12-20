@@ -6,20 +6,32 @@ import java.util.Random;
 
 public class BasicEnemy extends Enemy {
     
-    private boolean rotationDirection;
+    private int rotationDirection;
+    
+    // Helper variable for shape construction
+    private static final double P = Math.sqrt(3) * 0.5 * 16;
     
     public BasicEnemy() {
         
-        super(new Point2D[] {new Point2D(16, 0), new Point2D(8, Math.sqrt(3) * 0.5 * 16), 
-                             new Point2D(8, Math.sqrt(3) * 0.5 * 16), new Point2D(-8, Math.sqrt(3) * 0.5 * 16), 
-                             new Point2D(-8, Math.sqrt(3) * 0.5 * 16), new Point2D(-16, 0), 
-                             new Point2D(-16, 0), new Point2D(-8, Math.sqrt(3) * 0.5 * -16), 
-                             new Point2D(-8, Math.sqrt(3) * 0.5 * -16), new Point2D(8, Math.sqrt(3) * 0.5 * -16), 
-                             new Point2D(8, Math.sqrt(3) * 0.5 * -16), new Point2D(16, 0) ,
+        super(new Point2D[] {new Point2D(16, 0), new Point2D(8, P), 
+                             new Point2D(8, P), new Point2D(-8, P), 
+                             new Point2D(-8, P), new Point2D(-16, 0), 
+                             new Point2D(-16, 0), new Point2D(-8, -P), 
+                             new Point2D(-8, -P), new Point2D(8, -P), 
+                             new Point2D(8, -P), new Point2D(16, 0) ,
                              new Point2D(0, 0), new Point2D(0, 0)}, 
-                Color.RED, 3.2, 60);
+                Color.RED, 0.78, 60);
 
-        this.rotationDirection = new Random().nextBoolean();
+        boolean rand = new Random().nextBoolean();
+        
+        if (rand) {
+            
+            rotationDirection = 6;
+            
+        } else {
+            
+            rotationDirection = -6;
+        }
     }
     
     @Override
@@ -27,16 +39,10 @@ public class BasicEnemy extends Enemy {
         
         super.update();
         
-        if (rotationDirection) {
-            
-            setRotation(getRotation() + 6);
-            
-        } else {
-            
-            setRotation(getRotation() - 6);
-        }
+        setRotation(getRotation() + rotationDirection);
         
-        moveTowardsPlayer();
+        Point2D direction = normalizeDirection(getDirectionToPlayer());
+        move(direction.getX(), direction.getY());
         checkCollision();
     }
 }

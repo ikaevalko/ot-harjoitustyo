@@ -11,6 +11,7 @@ Sovelluksen käyttöliittymä on rakennettu JavaFX-kirjaston avulla. Sovelluksen
 - Pistetaulukko
 - "New Game"-näkymä
 - Pelinäkymä
+- Pelin loppunäkymä
 
 SpaceShooterUi-luokka rakentaa näkymät ohjelmallisesti suoritusaikana.
 
@@ -22,8 +23,27 @@ Sovelluksen luokkien yhteyksiä kuvaava luokkakaavio:
 
 SpaceShooterUi luo uuden GameSession-olion ja asettaa AnimationTimer-olion kutsumaan sen update-metodia toistuvasti, kun pelaaja on klikannut "Start"-nappia. GameSession huolehtii pelin tilan päivittämisestä kutsumalla omasta update-metodistaan muiden olioiden update-metodeja. Täten kaikkien pelissä olevien aktiivisten olioiden update-metodeja kutsutaan kerran yhden update-syklin aikana.
 
-### Sekvenssikaaviot
+### Toiminnallisuuksia sekvenssikaavioina
 
-Pelaajan liikuttamista kuvaava sekvenssikaavio:
+Pelaajan liikuttaminen:
 
 ![](kuvat/sekvenssikaavio_1.png)
+
+Vihollisten spawninki:
+
+![](kuvat/sekvenssikaavio_2.png)
+
+## Tiedon pysyväistallennus
+
+Pysyväistallennuksen toteutuksessa on hyödynnetty Data Access Object -suunnittelumallia. ScoreDao-rajapinnan toteuttava DatabaseScoreDao-luokka tallentaa pelaajien nimet ja pistemäärät paikallisesti "scores"-nimiseen H2-tietokantaan.
+
+
+
+
+
+
+
+
+
+
+

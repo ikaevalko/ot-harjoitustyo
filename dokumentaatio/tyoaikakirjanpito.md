@@ -19,4 +19,10 @@
 | 8.12. | 4      | alustava käyttöohje, lisää testejä |
 | 9.12. | 3      | MachineGun-luokka, pieniä korjauksia |
 | 10.12.| 2      | pieniä parannuksia, toinen release |
-| yht   | 68     | |
+| 14.12.| 6      | tietokanta + DAO, pistemäärien tallentaminen tietokantaan, näkymä pistetaulukolle |
+| 15.12.| 4      | väistämistoiminnallisuus |
+| 17.12.| 4      | testien parantelu, lisää testejä |
+| 18.12.| 6      | alustava testidokumentti, DashEnemy, pelin häviäminen |
+| 19.12.| 2      | DAO-testit |
+| 20.12.| 3      | luokkakaavion päivitys, sekvenssikaavio spawnaamisesta, lisää javadocia |
+| yht   | 93     | |

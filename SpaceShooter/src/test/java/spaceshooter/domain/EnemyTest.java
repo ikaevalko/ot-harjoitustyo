@@ -1,14 +1,12 @@
 package spaceshooter.domain;
 
-import com.sun.prism.paint.Color;
 import java.util.concurrent.TimeoutException;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
-import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import spaceshooter.ui.SpaceShooterUi;
@@ -16,23 +14,24 @@ import spaceshooter.ui.SpaceShooterUi;
 public class EnemyTest extends ApplicationTest {
     
     private Enemy enemy;
-    private Stage stage;
     
-    @Override
-    public void start(Stage stage) {
+    @BeforeClass
+    public static void setUpClass() throws TimeoutException {
         
-        Pane base = new Pane();
-        Scene scene = new Scene(base, 800, 800);
-        GameSession testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
-        stage.setScene(scene);
+        FxToolkit.registerPrimaryStage();
     }
     
     @Before
     public void setUp() throws TimeoutException {
         
-        stage = FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(SpaceShooterUi.class);
+        Pane base = new Pane();
+        Scene scene = new Scene(base, 800, 800);
+        GameSession testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
         this.enemy = new BasicEnemy();
+        
+        FxToolkit.setupStage(stage -> {
+            stage.setScene(scene);
+        });
     }
     
     @Test
@@ -49,9 +48,9 @@ public class EnemyTest extends ApplicationTest {
     @Test
     public void enemyGetsDestroyedCorrectly() {
         
-        enemy.takeDamage(30);
+        enemy.damage(30);
         assertFalse(enemy.getDestroyed());
-        enemy.takeDamage(30);
+        enemy.damage(30);
         assertTrue(enemy.getDestroyed());
     }
     
@@ -82,13 +81,13 @@ public class EnemyTest extends ApplicationTest {
     @Test
     public void speedResetsAfterDamageTimer() {
         
-        enemy.takeDamage(10);
+        enemy.damage(10);
         
         for (int i = 0; i <= 20; i++) {
             
             enemy.update();
         }
         
-        assertEquals(3.2, enemy.getSpeed(), 0.1);
+        assertEquals(0.78, enemy.getSpeed(), 0.1);
     }
 }

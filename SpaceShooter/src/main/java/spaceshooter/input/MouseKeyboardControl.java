@@ -2,6 +2,7 @@ package spaceshooter.input;
 
 import javafx.scene.Cursor;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 
 public class MouseKeyboardControl extends ControlScheme {
     
@@ -26,12 +27,26 @@ public class MouseKeyboardControl extends ControlScheme {
         
         scene.setOnMousePressed(e -> {
             
-            shooting = true;
+            if (e.getButton() == MouseButton.PRIMARY) {
+                
+                shooting = true;
+                
+            } else if (e.getButton() == MouseButton.SECONDARY) {
+                
+                dodging = true;
+            }
         });
         
         scene.setOnMouseReleased(e -> {
             
-            shooting = false;
+            if (e.getButton() == MouseButton.PRIMARY) {
+                
+                shooting = false;
+                
+            } else if (e.getButton() == MouseButton.SECONDARY) {
+                
+                dodging = false;
+            }
         });
     }
     
@@ -84,6 +99,15 @@ public class MouseKeyboardControl extends ControlScheme {
         if (shooting) {
             
             player.shoot();
+        }
+    }
+    
+    @Override
+    public void updateDodgeInput() {
+        
+        if (dodging) {
+            
+            player.dodge();
         }
     }
 }

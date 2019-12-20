@@ -4,10 +4,10 @@ import java.util.concurrent.TimeoutException;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.BeforeClass;
 import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import spaceshooter.ui.SpaceShooterUi;
@@ -15,23 +15,24 @@ import spaceshooter.ui.SpaceShooterUi;
 public class ShotTest extends ApplicationTest {
     
     private Shot shot;
-    private Stage stage;
     
-    @Override
-    public void start(Stage stage) {
+    @BeforeClass
+    public static void setUpClass() throws TimeoutException {
         
-        Pane base = new Pane();
-        Scene scene = new Scene(base, 800, 800);
-        GameSession testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
-        stage.setScene(scene);
+        FxToolkit.registerPrimaryStage();
     }
     
     @Before
     public void setUp() throws TimeoutException {
         
-        stage = FxToolkit.registerPrimaryStage();
-        FxToolkit.setupApplication(SpaceShooterUi.class);
+        Pane base = new Pane();
+        Scene scene = new Scene(base, 800, 800);
+        GameSession testSession = new GameSession(new SpaceShooterUi(), base, scene, 0);
         this.shot = new Bullet(new Point2D(1, 0));
+        
+        FxToolkit.setupStage(stage -> {
+            stage.setScene(scene);
+        });
     }
     
     @Test

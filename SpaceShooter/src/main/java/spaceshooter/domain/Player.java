@@ -14,6 +14,7 @@ public class Player extends GameObject {
     private double accelerationX;
     private double accelerationY;
     private double speed;
+    private double originalSpeed;
     private int condition;
     private int shot;
     private GameSession session;
@@ -21,6 +22,11 @@ public class Player extends GameObject {
     private ArrayList<Shot> shots;
     private ArrayList<Enemy> enemies;
     private int shotTimer = -1;
+    private int dodgeTimer = -1;
+    private double damageTimer = -1;
+    private boolean invulnerable = false;
+    private boolean takingDamage = false;
+    private boolean destroyed = false;
     
     public Player() {
         
@@ -29,6 +35,7 @@ public class Player extends GameObject {
                 Color.LIME);
         
         this.speed = 0.75;
+        this.originalSpeed = this.speed;
         this.condition = 30;
         this.shot = 0;
         this.shots = new ArrayList<>();
@@ -50,12 +57,15 @@ public class Player extends GameObject {
     public void update() {
         
         updateShots();
-        keepInsideBounds(scene.getWidth(), scene.getHeight());
         
         if (shotTimer > 0) {
             
             shotTimer--;
         }
+        
+        updateDodgeTimer();
+        updateDamageTimer();
+        keepInsideBounds(scene.getWidth(), scene.getHeight());
     }
     
     /**
@@ -130,6 +140,83 @@ public class Player extends GameObject {
         }
     }
     
+    private void updateDodgeTimer() {
+        
+        if (dodgeTimer > 0) {
+            
+            if (invulnerable && dodgeTimer < 85) {
+                
+                speed = originalSpeed;
+                getGraphics().setOpacity(1.0);
+                invulnerable = false;
+            }
+            
+            dodgeTimer--;
+        }
+    }
+    
+    private void updateDamageTimer() {
+        
+        if (damageTimer > 0) {
+            
+            if (damageTimer == 6) {
+                
+                setColor(Color.WHITE);
+                
+            } else if (damageTimer == 4) {
+                
+                resetColor();
+                
+            } else if (damageTimer == 2) {
+                
+                setColor(Color.WHITE);
+            }
+            
+            damageTimer--;
+            
+        } else if (takingDamage) {
+            
+            resetColor();
+            takingDamage = false;
+        }
+    }
+    
+    /**
+     * Makes the Player faster and invulnerable for a very short time.
+     */
+    public void dodge() {
+        
+        if (dodgeTimer <= 0) {
+            
+            invulnerable = true;
+            getGraphics().setOpacity(0.5);
+            speed += 0.18;
+            dodgeTimer = 100;
+        }
+    }
+    
+    /**
+     * Damages the Player and destroys it if condition is zero or less.
+     * 
+     * @param dmg The amount of damage dealt
+     */
+    public void damage(int dmg) {
+        
+        if (invulnerable) {
+            return;
+        }
+        
+        condition -= dmg;
+        damageTimer = 7;
+        takingDamage = true;
+        
+        if (condition <= 0) {
+            
+            getGraphics().setVisible(false);
+            destroyed = true;
+        }
+    }
+    
     public void setShot(int shot) {
         
         this.shot = shot;
@@ -148,6 +235,16 @@ public class Player extends GameObject {
     public int getShot() {
         
         return this.shot;
+    }
+    
+    public boolean getInvulnerable() {
+        
+        return this.invulnerable;
+    }
+    
+    public boolean getDestroyed() {
+        
+        return this.destroyed;
     }
     
     public ArrayList<Shot> getShots() {

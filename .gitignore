@@ -6,3 +6,5 @@
 /SpaceShooter/target/
 /SpaceShooter/nbproject/
 /SpaceShooter/nbactions.xml
+/SpaceShooter/scores.mv.db
+/SpaceShooter/scores.trace.db
